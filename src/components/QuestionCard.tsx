@@ -1,5 +1,6 @@
 import {FC} from 'react';
 import './QuestionCard.css'
+import classNames from "classnames";
 
 interface PropsType{
     id: string
@@ -20,11 +21,19 @@ const QuestionCard: FC<PropsType> = props => {
     function publish(id: string){
         publishQuestion && publishQuestion(id)
     }
+
+    const itemClassName = classNames(
+        {
+            "list-item": true,
+            "published-css" : isPublished
+        }
+    )
+
     return (
-        <div key={id} className="list-item">
+        <div key={id} className={itemClassName}>
             <strong>{title}</strong>
             &nbsp;
-            {isPublished ? <span style={{color: 'green'}}>已发布</span> : <span>未发布</span>}
+            {isPublished ? <span >已发布</span> : <span>未发布</span>}
             &nbsp;
             <button onClick={() => {
                 publish(id)
