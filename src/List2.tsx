@@ -10,8 +10,9 @@ const List2: FC = () => {
         {id: 'q4', title: '问卷4', isPublished: true}
     ])
 
-    const [list,setList] = useState([1,2,3,4,5,6,7,8,9,10])
-    function addItem(){
+    const [list, setList] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+
+    function addItem() {
         setList(
             produce(draft => {
                 draft.push(11)
@@ -21,25 +22,38 @@ const List2: FC = () => {
 
     function add() {
         const r = Math.random().toString().slice(-3)
-        setQuestionList(questionList.concat(
-            {id: 'q' + r, title: '问卷' + r, isPublished: false}
-        ))
+        setQuestionList(
+            // questionList.concat({id: 'q' + r, title: '问卷' + r, isPublished: false})
+            produce(draft => {
+                    draft.push({id: 'q' + r, title: '问卷' + r, isPublished: false})
+                }
+            ))
     }
 
     function deleteQuestion(id: string) {
-        setQuestionList(questionList.filter(q => {
-            return q.id !== id;
-        }))
+        setQuestionList(
+            // questionList.filter(q => {})
+            produce(draft => {
+                const index = draft.findIndex(q => q.id === id)
+                draft.splice(index, 1)
+            })
+        )
     }
 
-    function publishQuestion(id: string){
+    function publishQuestion(id: string) {
         setQuestionList(
-            questionList.map(
-                q => {
-                    if (q.id !==id) return q
-                    return {
-                        ...q,isPublished: true
-                    }
+            // questionList.map(
+            //     q => {
+            //         if (q.id !==id) return q
+            //         return {
+            //             ...q,isPublished: true
+            //         }
+            //     }
+            // )
+
+            produce(draft => {
+                    const q = draft.find(q => q.id === id)
+                    if (q) q.isPublished = true
                 }
             )
         )
@@ -62,7 +76,7 @@ const List2: FC = () => {
             <div>
                 <button onClick={add}>新增问卷</button>
             </div>
-            <div>{ JSON.stringify(list) }</div>
+            <div>{JSON.stringify(list)}</div>
             <div>
                 <button onClick={addItem}>修改数组</button>
             </div>
