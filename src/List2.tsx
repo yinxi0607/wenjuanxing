@@ -1,5 +1,6 @@
 import {FC, useState} from 'react';
 import QuestionCard from "./components/QuestionCard.tsx";
+import {produce} from "immer";
 
 const List2: FC = () => {
     const [questionList, setQuestionList] = useState([
@@ -8,6 +9,15 @@ const List2: FC = () => {
         {id: 'q3', title: '问卷3', isPublished: false},
         {id: 'q4', title: '问卷4', isPublished: true}
     ])
+
+    const [list,setList] = useState([1,2,3,4,5,6,7,8,9,10])
+    function addItem(){
+        setList(
+            produce(draft => {
+                draft.push(11)
+            })
+        )
+    }
 
     function add() {
         const r = Math.random().toString().slice(-3)
@@ -52,7 +62,10 @@ const List2: FC = () => {
             <div>
                 <button onClick={add}>新增问卷</button>
             </div>
-
+            <div>{ JSON.stringify(list) }</div>
+            <div>
+                <button onClick={addItem}>修改数组</button>
+            </div>
         </div>
     );
 };
