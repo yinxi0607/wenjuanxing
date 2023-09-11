@@ -1,4 +1,4 @@
-import {FC, useState} from 'react';
+import {FC,  useState} from 'react';
 import QuestionCard from "./components/QuestionCard.tsx";
 import {produce} from "immer";
 
@@ -11,6 +11,10 @@ const List2: FC = () => {
     ])
 
     const [list, setList] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+
+    // useEffect(() => {
+    //     console.log('questionList changed', questionList)
+    // },[questionList])
 
     function addItem() {
         setList(
