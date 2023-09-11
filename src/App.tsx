@@ -1,9 +1,9 @@
-import List1 from "./List1.tsx";
+import List2 from "./List2.tsx";
 
 function App() {
     return (
         <>
-            <List1/>
+            <List2/>
         </>
 
     )
