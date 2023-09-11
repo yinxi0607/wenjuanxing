@@ -1,6 +1,6 @@
 import {FC, useMemo, useState} from 'react';
 
-const UseMemo: FC = () => {
+const UseMemoDemo: FC = () => {
     const [num1,setNum1] = useState(10)
     const [num2,setNum2] = useState(20)
     const [text,setText] = useState('hello')
@@ -22,4 +22,4 @@ const UseMemo: FC = () => {
     );
 };
 
-export default UseMemo;
+export default UseMemoDemo;
