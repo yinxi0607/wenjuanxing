@@ -37,7 +37,7 @@ const List2: FC = () => {
 
     return (
         <div>
-            <h1>问卷列表页2</h1>
+            <h1>问卷列表页2hello</h1>
             <div>
                 {
                     questionList.map(question => {
