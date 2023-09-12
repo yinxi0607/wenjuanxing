@@ -1,6 +1,7 @@
 import {FC} from 'react';
-import './QuestionCard.css'
-import classNames from "classnames";
+// import './QuestionCard.css'
+// import classNames from "classnames";
+import styles from './QuestionCard.module.css'
 
 interface PropsType{
     id: string
@@ -22,15 +23,15 @@ const QuestionCard: FC<PropsType> = props => {
         publishQuestion && publishQuestion(id)
     }
 
-    const itemClassName = classNames(
-        {
-            "list-item": true,
-            "published-css" : isPublished
-        }
-    )
+    // const itemClassName = classNames(
+    //     {
+    //         "list-item": true,
+    //         "published-css" : isPublished
+    //     }
+    // )
 
     return (
-        <div key={id} className={itemClassName}>
+        <div key={id} className={styles["list-item"]}>
             <strong>{title}</strong>
             &nbsp;
             {isPublished ? <span >已发布</span> : <span>未发布</span>}
