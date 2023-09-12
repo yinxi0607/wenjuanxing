@@ -1,4 +1,5 @@
-import List2 from "./List2.tsx";
+// import List2 from "./List2.tsx";
+import StyledComponentsDemo from "./StyledComponentsDemo.tsx";
 // import UseCallbackDemo from "./UseCallbackDemo.tsx";
 // import useTitle from "./hooks/useTitle.ts";
 // import useGetInfo from "./hooks/useGetInfo.ts";
@@ -22,10 +23,11 @@ function App() {
             {/*</p>*/}
             {/*<p>App page {x},{y}</p>*/}
 
-            <List2/>
+            {/*<List2/>*/}
             {/*<UseRefDemo/>*/}
             {/*<UseMemoDemo/>*/}
             {/*<UseCallbackDemo/>*/}
+            <StyledComponentsDemo/>
         </>
 
     )
