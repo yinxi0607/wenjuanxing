@@ -1,5 +1,7 @@
 // import List2 from "./List2.tsx";
-import StyledComponentsDemo from "./StyledComponentsDemo.tsx";
+// import StyledComponentsDemo from "./StyledComponentsDemo.tsx";
+// import {ChangeEvent, useState} from "react";
+import FormElemsDemo from "./FormElemsDemo.tsx";
 // import UseCallbackDemo from "./UseCallbackDemo.tsx";
 // import useTitle from "./hooks/useTitle.ts";
 // import useGetInfo from "./hooks/useGetInfo.ts";
@@ -14,9 +16,17 @@ function App() {
     // useTitle("App pag1e")
     // const {loading,info} = useGetInfo()
     // const {x,y} = useMouse()
+    // const [text,setText] = useState<string>("hello")
+    // function handleChange(event: ChangeEvent<HTMLInputElement>){
+    //     setText(event.target.value)
+    // }
     return (
         <>
             <p>App Page</p>
+            {/*<div>*/}
+            {/*    <input value={text} onChange={handleChange}/>*/}
+            {/*    <button onClick={()=>{console.log(text)}}>打印</button>*/}
+            {/*</div>*/}
             {/*<ClosureTrapDemo/>*/}
             {/*<p>*/}
             {/*    {loading? "加载中。。": info}*/}
@@ -27,7 +37,8 @@ function App() {
             {/*<UseRefDemo/>*/}
             {/*<UseMemoDemo/>*/}
             {/*<UseCallbackDemo/>*/}
-            <StyledComponentsDemo/>
+            {/*<StyledComponentsDemo/>*/}
+            <FormElemsDemo/>
         </>
 
     )
