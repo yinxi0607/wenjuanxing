@@ -1,6 +1,7 @@
 import {FC, useState} from 'react';
 import styles from './List.module.scss'
 import QuestionCard from "../../components/QuestionCard.tsx";
+import {useTitle} from "ahooks";
 // import {useSearchParams} from "react-router-dom";
 
 const rawQuestionList = [
@@ -12,7 +13,7 @@ const rawQuestionList = [
 
 const List: FC = () => {
     // const [searchParams] = useSearchParams()
-
+    useTitle("尹曦问卷 - 我的问卷")
     const [questionList, setQuestionList] = useState(rawQuestionList)
 
     return (
