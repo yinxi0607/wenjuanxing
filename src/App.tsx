@@ -1,12 +1,13 @@
-import List from "./pages/List.tsx";
+import List from "./pages/manage/List.tsx";
+import {RouterProvider} from "react-router-dom";
+import router from "./router";
 
 function App() {
 
     return (
-        <>
-            <h1 style={{background:'yellow'}}>问卷星FE</h1>
-            <List/>
-        </>
+        <RouterProvider router={router}>
+
+        </RouterProvider>
 
     )
 }

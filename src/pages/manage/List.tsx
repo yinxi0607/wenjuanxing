@@ -1,6 +1,7 @@
 import {FC, useState} from 'react';
 import styles from './List.module.scss'
-import QuestionCard from "../components/QuestionCard.tsx";
+import QuestionCard from "../../components/QuestionCard.tsx";
+// import {useSearchParams} from "react-router-dom";
 
 const rawQuestionList = [
     {_id: 'q1', title: '问卷1', isPublished: true, isStar: false, answerCount: 5, createdAt: '9月12日 13:26'},
@@ -10,6 +11,7 @@ const rawQuestionList = [
 ]
 
 const List: FC = () => {
+    // const [searchParams] = useSearchParams()
 
     const [questionList, setQuestionList] = useState(rawQuestionList)
 
