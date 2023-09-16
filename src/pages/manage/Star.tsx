@@ -5,6 +5,7 @@ import {useTitle} from "ahooks";
 import QuestionCard from "../../components/QuestionCard.tsx";
 import ListSearch from "../../components/ListSearch.tsx";
 import useLoadQuestionListData from "../../hooks/useLoadQuestionListData.ts";
+import ListPage from "../../components/ListPage.tsx";
 
 const { Title} = Typography
 const Star: FC = () => {
@@ -17,7 +18,7 @@ const Star: FC = () => {
         <>
             <div className={styles.header}>
                 <div className={styles.left}>
-                    <Title level={3}>星标问卷{total}</Title>
+                    <Title level={3}>星标问卷</Title>
                 </div>
                 <div className={styles.right}>
                     <ListSearch/>
@@ -35,7 +36,7 @@ const Star: FC = () => {
                 })}
             </div>
             <div className={styles.footer}>
-                分页
+                <ListPage total={total}/>
             </div>
         </>
     );

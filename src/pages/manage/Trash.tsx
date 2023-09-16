@@ -5,6 +5,7 @@ import {Button, Empty,Space, Spin, Table, Tag, Typography} from "antd";
 // import {ExclamationCircleOutlined} from "@ant-design/icons";
 import ListSearch from "../../components/ListSearch.tsx";
 import useLoadQueestionListData from "../../hooks/useLoadQuestionListData.ts";
+import ListPage from "../../components/ListPage.tsx";
 
 // const {confirm} = Modal
 const {Title} = Typography
@@ -65,7 +66,7 @@ const Trash: FC = () => {
         <>
             <div className={styles.header}>
                 <div className={styles.left}>
-                    <Title level={3}>回收站{total}</Title>
+                    <Title level={3}>回收站</Title>
                 </div>
                 <div className={styles.right}>
                     <ListSearch/>
@@ -78,7 +79,7 @@ const Trash: FC = () => {
                 {list.length > 0 && TableElem }
             </div>
             <div className={styles.footer}>
-                分页
+                <ListPage total={total}/>
             </div>
         </>
     );
