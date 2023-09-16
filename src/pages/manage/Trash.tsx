@@ -1,19 +1,18 @@
 import {FC, useState} from 'react';
 import {useTitle} from "ahooks";
 import styles from "./common.module.scss";
-import {Button, Empty, message, Modal, Space, Table, Tag, Typography} from "antd";
-import {ExclamationCircleOutlined} from "@ant-design/icons";
+import {Button, Empty,Space, Spin, Table, Tag, Typography} from "antd";
+// import {ExclamationCircleOutlined} from "@ant-design/icons";
 import ListSearch from "../../components/ListSearch.tsx";
+import useLoadQueestionListData from "../../hooks/useLoadQuestionListData.ts";
 
-const {confirm} = Modal
+// const {confirm} = Modal
 const {Title} = Typography
-const rawQuestionList = [
-    {_id: 'q2', title: '问卷2', isPublished: false, isStar: true, answerCount: 2, createdAt: '9月11日 12:26'},
-    {_id: 'q4', title: '问卷4', isPublished: true, isStar: true, answerCount: 1, createdAt: '9月15日 19:26'}
-]
+
 const Trash: FC = () => {
     useTitle("尹曦问卷 - 回收站")
-    const [questionList, setQuestionList] = useState(rawQuestionList)
+    const {data={},loading} = useLoadQueestionListData({isDeleted: true})
+    const {list={},total=0} = data
     const [selectedIds,setSelectedIds] = useState<string[]>([])
     const tableColumns = [
         {title: '标题', dataIndex: 'title', key: 'title'},
@@ -26,15 +25,15 @@ const Trash: FC = () => {
         {title: '创建时间', dataIndex: 'createdAt', key: 'createdAt'},
 
     ]
-    function del(){
-        confirm({
-            title: '确定彻底删除选中问卷吗？',
-            icon: <ExclamationCircleOutlined/>,
-            content: '删除以后不可恢复',
-            onOk: () => message.success('删除成功'),
-
-        })
-    }
+    // function del(){
+    //     confirm({
+    //         title: '确定彻底删除选中问卷吗？',
+    //         icon: <ExclamationCircleOutlined/>,
+    //         content: '删除以后不可恢复',
+    //         onOk: () => message.success('删除成功'),
+    //
+    //     })
+    // }
     const TableElem = (
         <>
             <div style={{marginBottom:'16px'}}>
@@ -45,7 +44,7 @@ const Trash: FC = () => {
             </div>
 
             <Table
-                dataSource={questionList}
+                dataSource={list}
                 columns={tableColumns}
                 pagination={false}
                 rowKey={q => q._id}
@@ -66,16 +65,17 @@ const Trash: FC = () => {
         <>
             <div className={styles.header}>
                 <div className={styles.left}>
-                    <Title level={3}>回收站</Title>
+                    <Title level={3}>回收站{total}</Title>
                 </div>
                 <div className={styles.right}>
                     <ListSearch/>
                 </div>
             </div>
             <div className={styles.content}>
-                {questionList.length === 0 && <Empty description="暂无数据。。。"/>}
+                {loading && <div style={{textAlign: 'center'}}><Spin/></div>}
+                {!loading && list.length === 0 && <Empty description="暂无数据。。。"/>}
 
-                {questionList.length > 0 && TableElem }
+                {list.length > 0 && TableElem }
             </div>
             <div className={styles.footer}>
                 分页
