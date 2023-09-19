@@ -1,20 +1,38 @@
 import {FC, useState} from 'react';
-import {useTitle} from "ahooks";
+import {useRequest, useTitle} from "ahooks";
 import styles from "./common.module.scss";
-import {Button, Empty,Space, Spin, Table, Tag, Typography} from "antd";
+import {Button, Empty, message, Modal, Space, Spin, Table, Tag, Typography} from "antd";
 // import {ExclamationCircleOutlined} from "@ant-design/icons";
 import ListSearch from "../../components/ListSearch.tsx";
 import useLoadQueestionListData from "../../hooks/useLoadQuestionListData.ts";
 import ListPage from "../../components/ListPage.tsx";
+import {ExclamationCircleOutlined} from "@ant-design/icons";
+import {updateQuestionService} from "../../services/question.ts";
 
-// const {confirm} = Modal
+
 const {Title} = Typography
-
+const {confirm} = Modal
 const Trash: FC = () => {
     useTitle("尹曦问卷 - 回收站")
-    const {data={},loading} = useLoadQueestionListData({isDeleted: true})
-    const {list={},total=0} = data
-    const [selectedIds,setSelectedIds] = useState<string[]>([])
+    const {data = {}, loading, refresh} = useLoadQueestionListData({isDeleted: true})
+    const {list = {}, total = 0} = data
+    const [selectedIds, setSelectedIds] = useState<string[]>([])
+
+    const {run: recover} = useRequest(
+        async () => {
+            for await (const id of selectedIds) {
+                await updateQuestionService(id, {isDeleted: false})
+            }
+        }, {
+            manual: true,
+            debounceWait:500,
+            onSuccess() {
+                message.success("恢复成功")
+                refresh() //手动刷新列表
+            }
+        }
+    )
+
     const tableColumns = [
         {title: '标题', dataIndex: 'title', key: 'title'},
         {
@@ -26,21 +44,23 @@ const Trash: FC = () => {
         {title: '创建时间', dataIndex: 'createdAt', key: 'createdAt'},
 
     ]
-    // function del(){
-    //     confirm({
-    //         title: '确定彻底删除选中问卷吗？',
-    //         icon: <ExclamationCircleOutlined/>,
-    //         content: '删除以后不可恢复',
-    //         onOk: () => message.success('删除成功'),
-    //
-    //     })
-    // }
+
+    function del() {
+        confirm({
+            title: '确定彻底删除选中问卷吗？',
+            icon: <ExclamationCircleOutlined/>,
+            content: '删除以后不可恢复',
+            onOk: () => message.success('删除成功'),
+
+        })
+    }
+
     const TableElem = (
         <>
-            <div style={{marginBottom:'16px'}}>
+            <div style={{marginBottom: '16px'}}>
                 <Space>
-                    <Button type="primary" disabled={selectedIds.length===0}>恢复</Button>
-                    <Button danger={true} disabled={selectedIds.length===0}>彻底删除</Button>
+                    <Button type="primary" disabled={selectedIds.length === 0} onClick={recover}>恢复</Button>
+                    <Button danger={true} disabled={selectedIds.length === 0}>彻底删除</Button>
                 </Space>
             </div>
 
@@ -76,7 +96,7 @@ const Trash: FC = () => {
                 {loading && <div style={{textAlign: 'center'}}><Spin/></div>}
                 {!loading && list.length === 0 && <Empty description="暂无数据。。。"/>}
 
-                {list.length > 0 && TableElem }
+                {list.length > 0 && TableElem}
             </div>
             <div className={styles.footer}>
                 <ListPage total={total}/>
