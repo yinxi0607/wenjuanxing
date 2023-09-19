@@ -7,7 +7,7 @@ import ListSearch from "../../components/ListSearch.tsx";
 import useLoadQueestionListData from "../../hooks/useLoadQuestionListData.ts";
 import ListPage from "../../components/ListPage.tsx";
 import {ExclamationCircleOutlined} from "@ant-design/icons";
-import {updateQuestionService} from "../../services/question.ts";
+import {deleteQuestionService, updateQuestionService} from "../../services/question.ts";
 
 
 const {Title} = Typography
@@ -29,6 +29,7 @@ const Trash: FC = () => {
             onSuccess() {
                 message.success("恢复成功")
                 refresh() //手动刷新列表
+                setSelectedIds([])
             }
         }
     )
@@ -45,12 +46,22 @@ const Trash: FC = () => {
 
     ]
 
+    const {run: deleteQuestion} = useRequest(async ()=> await deleteQuestionService(selectedIds),
+        {
+            manual: true,
+            onSuccess(){
+                message.success("删除成功")
+                refresh()
+                setSelectedIds([])
+            }
+        })
+
     function del() {
         confirm({
             title: '确定彻底删除选中问卷吗？',
             icon: <ExclamationCircleOutlined/>,
             content: '删除以后不可恢复',
-            onOk: () => message.success('删除成功'),
+            onOk: deleteQuestion,
 
         })
     }
@@ -60,7 +71,7 @@ const Trash: FC = () => {
             <div style={{marginBottom: '16px'}}>
                 <Space>
                     <Button type="primary" disabled={selectedIds.length === 0} onClick={recover}>恢复</Button>
-                    <Button danger={true} disabled={selectedIds.length === 0}>彻底删除</Button>
+                    <Button danger={true} disabled={selectedIds.length === 0} onClick={del}>彻底删除</Button>
                 </Space>
             </div>
 
