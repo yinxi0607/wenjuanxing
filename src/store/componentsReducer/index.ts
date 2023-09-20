@@ -35,6 +35,7 @@ export const componentsSlice = createSlice({
                 selectedId: action.payload
             }
         },
+
     }
 })
 
