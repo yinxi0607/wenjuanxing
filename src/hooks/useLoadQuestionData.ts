@@ -20,8 +20,13 @@ function useLoadQuestionData() {
     useEffect(() => {
         if (!data) return
         const {title = '', componentList = []} = data
+        //获取默认的selectedId
+        let selectedId = ''
+        if(componentList.length>0){
+            selectedId = componentList[0].fe_id//默认选择第一个组件
+        }
         console.log(title)
-        dispatch(resetComponents({componentList,selectedId:''}))
+        dispatch(resetComponents({componentList,selectedId:selectedId}))
     }, [data])
 
     // 判断id变化，执行ajax加载问卷数据

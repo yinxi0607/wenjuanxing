@@ -23,7 +23,8 @@ function getComponent(componentInfo: ComponentInfoType){
 const EditCanvas: FC<PropsType> = ({loading}) => {
     const {componentList,selectedId} = useGetComponentInfo()
     const dispatch = useDispatch()
-    function handleClick(id:string){
+    function handleClick(event:MouseEvent,id:string){
+        event.stopPropagation()//阻止冒泡
         dispatch(changeSelectedId(id))
     }
 
@@ -54,8 +55,8 @@ const EditCanvas: FC<PropsType> = ({loading}) => {
                     [wrapperDefaultClassName]:true,
                     [selectedClassName]:fe_id===selectedId
                 })
-                return <div key={fe_id} className={wrapperClassName} onClick={()=>{
-                    handleClick(fe_id)
+                return <div key={fe_id} className={wrapperClassName} onClick={(e)=>{
+                    handleClick(e,fe_id)
                 }}>
                     <div className={styles.component}>
                         {getComponent(c)}
