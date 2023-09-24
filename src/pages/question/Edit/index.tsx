@@ -5,6 +5,8 @@ import EditCanvas from "./EditCanvas.tsx";
 import useLoadQuestionData from "../../../hooks/useLoadQuestionData.ts";
 import {useDispatch} from "react-redux";
 import {changeSelectedId} from "../../../store/componentsReducer";
+import LeftPanel from "./LeftPanel.tsx";
+import RightPanel from "./RightPanel.tsx";
 
 const Edit: FC = () => {
     // const { id='' } = useParams()
@@ -18,13 +20,17 @@ const Edit: FC = () => {
             <div style={{backgroundColor: "white", height: '40px'}}>Header</div>
             <div className={styles["content-wrapper"]}>
                 <div className={styles.content}>
-                    <div className={styles.left}>Left</div>
+                    <div className={styles.left}>
+                        <LeftPanel/>
+                    </div>
                     <div className={styles.main} onClick={clearSelectedId}>
                         <div className={styles["canvas-wrapper"]}>
                             <EditCanvas loading={loading}/>
                         </div>
                     </div>
-                    <div className={styles.right}>Right</div>
+                    <div className={styles.right}>
+                        <RightPanel/>
+                    </div>
                 </div>
             </div>
         </div>

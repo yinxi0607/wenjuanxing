@@ -35,10 +35,28 @@ export const componentsSlice = createSlice({
                 selectedId: action.payload
             }
         },
+        addComponents:(state:ComponentsStateType,action:PayloadAction<ComponentInfoType>) => {
+            const newComponent = action.payload
+            const {selectedId,componentList} = state
+            const index = componentList.findIndex(c=>c.fe_id==selectedId)
+            if (index<0){
+                return {
+                    ...state,
+                    componentList: [...componentList, newComponent]
+                }
+            }else{
+                const newArray = [...componentList]; // 创建一个新的数组副本
+                newArray.splice(index+1, 0, newComponent);
+                return {
+                    ...state,
+                    componentList: newArray
+                }
+            }
 
+        }
     }
 })
 
-export const {resetComponents,changeSelectedId} = componentsSlice.actions
+export const {resetComponents,changeSelectedId,addComponents} = componentsSlice.actions
 
 export default componentsSlice.reducer
