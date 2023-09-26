@@ -3,6 +3,7 @@ export type QuestionInputPropsType = {
     placeholder?: string
 
     onChange?: (props:QuestionInputPropsType) => void
+    disabled?:boolean
 }
 
 export const QuestionInputDefaultProps: QuestionInputPropsType = {

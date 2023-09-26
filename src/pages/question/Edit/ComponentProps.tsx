@@ -11,17 +11,19 @@ const ComponentProps: FC = () => {
     const dispatch = useDispatch()
     const {selectedComponent} = useGetComponentInfo()
     if (selectedComponent == null) return <NoProp/>
-    const {type,props} = selectedComponent
+    const {type, props, isLocked,isHidden} = selectedComponent
     const componentConf = getComponentConfByType(type)
-    if (componentConf==null) return <NoProp/>
+    if (componentConf == null) return <NoProp/>
     const {PropComponent} = componentConf
-    function handlePropsChange(props: ComponentPropsType){
-        if(selectedComponent==null) return
+
+    function handlePropsChange(props: ComponentPropsType) {
+        if (selectedComponent == null) return
         const {fe_id} = selectedComponent
-        dispatch(changeComponentProps({fe_id,props}))
+        dispatch(changeComponentProps({fe_id, props}))
     }
+
     return (
-        <PropComponent {...props} onChange={handlePropsChange}/>
+        <PropComponent {...props} onChange={handlePropsChange} disabled={isLocked||isHidden}/>
     );
 };
 
