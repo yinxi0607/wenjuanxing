@@ -1,13 +1,18 @@
 import {FC} from 'react';
 import {Button, Space, Tooltip} from "antd";
-import {DeleteOutlined, EyeInvisibleOutlined, LockOutlined} from "@ant-design/icons";
+import {BlockOutlined, CopyOutlined, DeleteOutlined, EyeInvisibleOutlined, LockOutlined} from "@ant-design/icons";
 import {useDispatch} from "react-redux";
-import {changeComponentHidden, removeSelectedComponent, toggleComponentLocked} from "../../../store/componentsReducer";
+import {
+    changeComponentHidden,
+    copySelectedComponent, pasteComponent,
+    removeSelectedComponent,
+    toggleComponentLocked
+} from "../../../store/componentsReducer";
 import useGetComponentInfo from "../../../hooks/useGetComponentInfo.ts";
 
 const EditToolbar: FC = () => {
     const dispatch = useDispatch()
-    const {selectedId, selectedComponent} = useGetComponentInfo()
+    const {selectedId, selectedComponent, copiedComponent} = useGetComponentInfo()
     const {isLocked} = selectedComponent || {}
 
     function handleDelete() {
@@ -19,7 +24,15 @@ const EditToolbar: FC = () => {
     }
 
     function handleLock() {
-        dispatch(toggleComponentLocked({fe_id:selectedId}))
+        dispatch(toggleComponentLocked({fe_id: selectedId}))
+    }
+
+    function handleCopy() {
+        dispatch(copySelectedComponent())
+    }
+
+    function handlePaste() {
+        dispatch(pasteComponent())
     }
 
     return (
@@ -33,6 +46,13 @@ const EditToolbar: FC = () => {
             <Tooltip title="锁定">
                 <Button shape="circle" icon={<LockOutlined/>} onClick={handleLock}
                         type={isLocked ? "primary" : "default"}></Button>
+            </Tooltip>
+            <Tooltip title="复制">
+                <Button shape="circle" icon={<CopyOutlined/>} onClick={handleCopy}></Button>
+            </Tooltip>
+            <Tooltip title="粘贴">
+                <Button shape="circle" icon={<BlockOutlined/>} onClick={handlePaste}
+                        disabled={copiedComponent == null}></Button>
             </Tooltip>
         </Space>
     );

@@ -1,4 +1,4 @@
-import {ComponentInfoType} from "./index.ts";
+import {ComponentInfoType, ComponentsStateType} from "./index.ts";
 
 export function getNextSelectedId(fe_id: string,componentList: ComponentInfoType[]){
     const visibleComponentList = componentList.filter(c=> !c.isHidden)
@@ -18,4 +18,23 @@ export function getNextSelectedId(fe_id: string,componentList: ComponentInfoType
         }
     }
     return newSelectedId
+}
+
+
+export function insertNewComponent(state: ComponentsStateType,newComponent:ComponentInfoType){
+    const {selectedId, componentList} = state
+    const index = componentList.findIndex(c => c.fe_id == selectedId)
+    if (index < 0) {
+        return {
+            ...state,
+            componentList: [...componentList, newComponent]
+        }
+    } else {
+        const newArray = [...componentList]; // 创建一个新的数组副本
+        newArray.splice(index + 1, 0, newComponent);
+        return {
+            ...state,
+            componentList: newArray
+        }
+    }
 }

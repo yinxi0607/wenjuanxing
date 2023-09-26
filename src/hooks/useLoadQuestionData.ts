@@ -26,7 +26,7 @@ function useLoadQuestionData() {
             selectedId = componentList[0].fe_id//默认选择第一个组件
         }
         console.log(title)
-        dispatch(resetComponents({componentList,selectedId:selectedId}))
+        dispatch(resetComponents({componentList,selectedId:selectedId,copiedComponent:null}))
     }, [data])
 
     // 判断id变化，执行ajax加载问卷数据
