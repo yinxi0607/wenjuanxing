@@ -1,6 +1,7 @@
 import {ComponentPropsType} from "../../components/QuestionComponents";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
+
 export type ComponentInfoType = {
     fe_id: string
     type: string
@@ -53,10 +54,29 @@ export const componentsSlice = createSlice({
                 }
             }
 
+        },
+        changeComponentProps: (state: ComponentsStateType, action: PayloadAction<{fe_id:string,props:ComponentPropsType}>) => {
+            const {fe_id,props} = action.payload
+            const {componentList} = state
+            const index = componentList.findIndex(c=>c.fe_id==fe_id)
+            if (index<0){
+                return state
+            }else{
+                const newArray = [...componentList]; // 创建一个新的数组副本
+                newArray[index] = {
+                    ...newArray[index],
+                    props: props
+                }
+                return {
+                    ...state,
+                    componentList: newArray
+                }
+            }
         }
+
     }
 })
 
-export const {resetComponents,changeSelectedId,addComponents} = componentsSlice.actions
+export const {resetComponents,changeSelectedId,addComponents,changeComponentProps} = componentsSlice.actions
 
 export default componentsSlice.reducer
