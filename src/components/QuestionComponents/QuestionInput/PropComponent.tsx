@@ -18,7 +18,7 @@ const PropComponent: FC<QuestionInputPropsType> = (props: QuestionInputPropsType
             layout="vertical"
             initialValues={{title,placeholder}}
             form={form}
-            onChange={handleValuesChange}
+            onValuesChange={ handleValuesChange}
             disabled={disabled}
         >
             <Form.Item label="标题" name="title" rules={[{required: true,message:"请输入..."}]}>
