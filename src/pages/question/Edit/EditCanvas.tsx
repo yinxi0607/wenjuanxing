@@ -38,17 +38,6 @@ const EditCanvas: FC<PropsType> = ({loading}) => {
     }
     return (
         <div className={styles.canvas}>
-            {/*<div className={styles['component-wrapper']}>*/}
-            {/*    <div className={styles.component}>*/}
-            {/*        <QuestionTitle/>*/}
-            {/*    </div>*/}
-
-            {/*</div>*/}
-            {/*<div className={styles['component-wrapper']}>*/}
-            {/*    <div className={styles.component}>*/}
-            {/*        <QuestionInput/>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
             {componentList.filter(c=>!c.isHidden).map(c => {
                 const {fe_id,isLocked} = c
                 //拼接classname
