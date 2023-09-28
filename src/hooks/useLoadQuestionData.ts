@@ -4,6 +4,7 @@ import {getQuestionService} from "../services/question.ts";
 import {useEffect} from "react";
 import {useDispatch} from "react-redux";
 import {resetComponents} from "../store/componentsReducer";
+import {resetPageInfo} from "../store/pageInfoReducer.ts";
 
 function useLoadQuestionData() {
     const {id = ''} = useParams()
@@ -19,14 +20,14 @@ function useLoadQuestionData() {
     // 根据获取的data设置redux store
     useEffect(() => {
         if (!data) return
-        const {title = '', componentList = []} = data
+        const {title = '', desc='',js='',css=' ', componentList = []} = data
         //获取默认的selectedId
         let selectedId = ''
         if(componentList.length>0){
             selectedId = componentList[0].fe_id//默认选择第一个组件
         }
-        console.log(title)
         dispatch(resetComponents({componentList,selectedId:selectedId,copiedComponent:null}))
+        dispatch(resetPageInfo({title,desc,js,css}))
     }, [data])
 
     // 判断id变化，执行ajax加载问卷数据
