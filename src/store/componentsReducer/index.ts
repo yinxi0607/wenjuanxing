@@ -174,6 +174,24 @@ export const componentsSlice = createSlice({
                 ...state,
                 selectedId: componentList[selectedIndex+1].fe_id
             }
+        },
+        // 修改组件标题
+        changeComponentTitle:(state:ComponentsStateType,action:PayloadAction<{fe_id:string,title:string}>)=>{
+            const {fe_id,title} = action.payload
+            const {componentList} = state
+            const index = componentList.findIndex(c => c.fe_id === fe_id)
+            if (index >= 0) {
+
+                const newArray = [...componentList]; // 创建一个新的数组副本
+                newArray[index] = {
+                    ...newArray[index],
+                    title: title
+                }
+                return {
+                    ...state,
+                    componentList: newArray
+                }
+            }
         }
     }
 })
@@ -189,7 +207,8 @@ export const {
     copySelectedComponent,
     pasteComponent,
     selectPrevComponent,
-    selectNextComponent
+    selectNextComponent,
+    changeComponentTitle
 } = componentsSlice.actions
 
 export default componentsSlice.reducer
