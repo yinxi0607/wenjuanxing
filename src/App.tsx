@@ -2,7 +2,8 @@
 // import StyledComponentsDemo from "./StyledComponentsDemo.tsx";
 // import {ChangeEvent, useState} from "react";
 // import FormElemsDemo from "./FormElemsDemo.tsx";
-import FormikDemo from "./FormikDemo.tsx";
+// import FormikDemo from "./FormikDemo.tsx";
+import DndDemo from "./DndDemo.tsx";
 // import UseCallbackDemo from "./UseCallbackDemo.tsx";
 // import useTitle from "./hooks/useTitle.ts";
 // import useGetInfo from "./hooks/useGetInfo.ts";
@@ -40,7 +41,8 @@ function App() {
             {/*<UseCallbackDemo/>*/}
             {/*<StyledComponentsDemo/>*/}
             {/*<FormElemsDemo/>*/}
-            <FormikDemo/>
+            {/*<FormikDemo/>*/}
+            <DndDemo/>
         </>
 
     )
