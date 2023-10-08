@@ -1,6 +1,6 @@
 import {ChangeEvent, FC, useState} from 'react';
 import styles from './EditHeader.module.scss'
-import {Button, Input, Space, Typography} from "antd";
+import {Button, Input, message, Space, Typography} from "antd";
 import {EditOutlined, LeftOutlined, LoadingOutlined} from "@ant-design/icons";
 import {useNavigate, useParams} from "react-router-dom";
 import EditToolbar from "./EditToolbar.tsx";
@@ -48,16 +48,33 @@ const SaveButton: FC = () => {
         if (!id) return
         await updateQuestionService(id, {...pageInfo, componentList})
     }, {manual: true})
-    useKeyPress(['ctrl.s','meta.s'],(event:KeyboardEvent)=>{
+    useKeyPress(['ctrl.s', 'meta.s'], (event: KeyboardEvent) => {
         event.preventDefault()
         if (!loading) save()
     })
-    useDebounceEffect(()=>{
-        if(!loading) save()
-    },[pageInfo,componentList],{wait:1000})
-    return <Button onClick={save} icon={loading?<LoadingOutlined/>:null}>保存</Button>
+    useDebounceEffect(() => {
+        if (!loading) save()
+    }, [pageInfo, componentList], {wait: 1000})
+    return <Button onClick={save} icon={loading ? <LoadingOutlined/> : null}>保存</Button>
 }
 
+const PublishButton: FC = () => {
+    const nav = useNavigate()
+    const pageInfo = UseGetPageInfo()
+    const {id} = useParams()
+    const {componentList = []} = UseGetComponentInfo()
+    const {loading, run: pub} = useRequest(async () => {
+        if (!id) return
+        await updateQuestionService(id, {...pageInfo, componentList, isPublished: true})
+    }, {
+        manual: true,
+        onSuccess(){
+            message.success("发布成功")
+            nav('/question/stat/'+id)
+        }
+    })
+    return <Button type="primary" onClick={pub} disabled={loading}>发布</Button>
+}
 const EditHeader: FC = () => {
     const nav = useNavigate()
     return (
@@ -77,7 +94,7 @@ const EditHeader: FC = () => {
                 <div className={styles.right}>
                     <Space>
                         <SaveButton/>
-                        <Button type="primary">发布</Button>
+                        <PublishButton/>
                     </Space>
                 </div>
             </div>
