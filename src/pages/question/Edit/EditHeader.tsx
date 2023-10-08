@@ -1,37 +1,61 @@
 import {ChangeEvent, FC, useState} from 'react';
 import styles from './EditHeader.module.scss'
 import {Button, Input, Space, Typography} from "antd";
-import {EditOutlined, LeftOutlined} from "@ant-design/icons";
-import {useNavigate} from "react-router-dom";
+import {EditOutlined, LeftOutlined, LoadingOutlined} from "@ant-design/icons";
+import {useNavigate, useParams} from "react-router-dom";
 import EditToolbar from "./EditToolbar.tsx";
 import useGetPageInfo from "../../../hooks/useGetPageInfo.ts";
 import {useDispatch} from "react-redux";
 import {changePageTitle} from "../../../store/pageInfoReducer.ts";
+import UseGetPageInfo from "../../../hooks/useGetPageInfo.ts";
+import UseGetComponentInfo from "../../../hooks/useGetComponentInfo.ts";
+import {useDebounceEffect, useKeyPress, useRequest} from "ahooks";
+import {updateQuestionService} from "../../../services/question.ts";
 
 const {Title} = Typography
 
-const TitleElem: FC = () =>{
+const TitleElem: FC = () => {
     const {title} = useGetPageInfo()
     const dispatch = useDispatch()
-    const [editState,setEditState] = useState(false)
-    function handleChange(event:ChangeEvent<HTMLInputElement>){
+    const [editState, setEditState] = useState(false)
+
+    function handleChange(event: ChangeEvent<HTMLInputElement>) {
         const newTitle = event.target.value.trim()
-        if(!newTitle) return
+        if (!newTitle) return
         dispatch(changePageTitle(newTitle))
     }
-    if (editState){
+
+    if (editState) {
         return <Input
             value={title}
             onChange={handleChange}
-            onPressEnter={()=> setEditState(false)}
-            onBlur={()=> setEditState(false)}
+            onPressEnter={() => setEditState(false)}
+            onBlur={() => setEditState(false)}
         />
     }
     return <Space>
         <Title>{title}</Title>
-        <Button icon={<EditOutlined/>} onClick={()=>setEditState(true)}/>
+        <Button icon={<EditOutlined/>} onClick={() => setEditState(true)}/>
     </Space>
 
+}
+
+const SaveButton: FC = () => {
+    const pageInfo = UseGetPageInfo()
+    const {id} = useParams()
+    const {componentList = []} = UseGetComponentInfo()
+    const {loading, run: save} = useRequest(async () => {
+        if (!id) return
+        await updateQuestionService(id, {...pageInfo, componentList})
+    }, {manual: true})
+    useKeyPress(['ctrl.s','meta.s'],(event:KeyboardEvent)=>{
+        event.preventDefault()
+        if (!loading) save()
+    })
+    useDebounceEffect(()=>{
+        if(!loading) save()
+    },[pageInfo,componentList],{wait:1000})
+    return <Button onClick={save} icon={loading?<LoadingOutlined/>:null}>保存</Button>
 }
 
 const EditHeader: FC = () => {
@@ -41,7 +65,9 @@ const EditHeader: FC = () => {
             <div className={styles.header}>
                 <div className={styles.left}>
                     <Space>
-                        <Button type="link" icon={<LeftOutlined/>} onClick={()=>{nav(-1)}}>返回</Button>
+                        <Button type="link" icon={<LeftOutlined/>} onClick={() => {
+                            nav(-1)
+                        }}>返回</Button>
                         <TitleElem/>
                     </Space>
                 </div>
@@ -50,7 +76,7 @@ const EditHeader: FC = () => {
                 </div>
                 <div className={styles.right}>
                     <Space>
-                        <Button>保存</Button>
+                        <SaveButton/>
                         <Button type="primary">发布</Button>
                     </Space>
                 </div>
