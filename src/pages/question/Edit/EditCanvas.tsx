@@ -59,8 +59,8 @@ const EditCanvas: FC<PropsType> = ({loading}) => {
                         [selectedClassName]:fe_id===selectedId,
                         [lockedClassName]: isLocked
                     })
-                    return <SortableItem id={fe_id}>
-                        <div key={fe_id} className={wrapperClassName} onClick={(e)=>{
+                    return <SortableItem id={fe_id} key={fe_id}>
+                        <div className={wrapperClassName} onClick={(e)=>{
                             handleClick(e,fe_id)
                         }}>
                             <div className={styles.component}>

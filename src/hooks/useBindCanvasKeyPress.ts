@@ -10,7 +10,12 @@ import {
 // 判断当前element是否合法
 function isActiveElementVaild(){
     const activeElement = document.activeElement
+    // 在没有添加dnd-kit之前
+    // if (activeElement===document.body) return true
+
+    // 在添加dnd-kit之后
     if (activeElement===document.body) return true
+    if (activeElement?.matches('div[role="button"]')) return true
     return false
 }
 

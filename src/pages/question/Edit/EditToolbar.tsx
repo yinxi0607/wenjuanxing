@@ -1,10 +1,17 @@
 import {FC} from 'react';
 import {Button, Space, Tooltip} from "antd";
-import {BlockOutlined, CopyOutlined, DeleteOutlined, EyeInvisibleOutlined, LockOutlined} from "@ant-design/icons";
+import {
+    BlockOutlined,
+    CopyOutlined,
+    DeleteOutlined, DownOutlined,
+    EyeInvisibleOutlined,
+    LockOutlined,
+    UpOutlined
+} from "@ant-design/icons";
 import {useDispatch} from "react-redux";
 import {
     changeComponentHidden,
-    copySelectedComponent, pasteComponent,
+    copySelectedComponent, moveComponent, pasteComponent,
     removeSelectedComponent,
     toggleComponentLocked
 } from "../../../store/componentsReducer";
@@ -12,9 +19,12 @@ import useGetComponentInfo from "../../../hooks/useGetComponentInfo.ts";
 
 const EditToolbar: FC = () => {
     const dispatch = useDispatch()
-    const {selectedId, selectedComponent, copiedComponent} = useGetComponentInfo()
+    const {selectedId,componentList, selectedComponent, copiedComponent} = useGetComponentInfo()
     const {isLocked} = selectedComponent || {}
-
+    const length = componentList.length
+    const selectedIndex = componentList.findIndex(c=> c.fe_id===selectedId)
+    const isFirst = selectedIndex<=0
+    const isLast = selectedIndex+1 >=length
     function handleDelete() {
         dispatch(removeSelectedComponent())
     }
@@ -35,6 +45,15 @@ const EditToolbar: FC = () => {
         dispatch(pasteComponent())
     }
 
+    function handleMoveUp(){
+        if(isFirst) return
+        dispatch(moveComponent({oldIndex:selectedIndex,newIndex:selectedIndex-1}))
+    }
+
+    function handleMoveDown(){
+        if(isLast) return
+        dispatch(moveComponent({oldIndex:selectedIndex,newIndex:selectedIndex+1}))
+    }
     return (
         <Space>
             <Tooltip title="删除">
@@ -53,6 +72,14 @@ const EditToolbar: FC = () => {
             <Tooltip title="粘贴">
                 <Button shape="circle" icon={<BlockOutlined/>} onClick={handlePaste}
                         disabled={copiedComponent == null}></Button>
+            </Tooltip>
+            <Tooltip title="上移">
+                <Button shape="circle" icon={<UpOutlined/>} onClick={handleMoveUp} disabled={isFirst}
+                ></Button>
+            </Tooltip>
+            <Tooltip title="下移">
+                <Button shape="circle" icon={<DownOutlined/>} onClick={handleMoveDown} disabled={isLast}
+                        ></Button>
             </Tooltip>
         </Space>
     );
