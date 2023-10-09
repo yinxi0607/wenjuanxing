@@ -6,6 +6,7 @@ import {
     removeSelectedComponent, selectNextComponent,
     selectPrevComponent
 } from "../store/componentsReducer";
+import {ActionCreators as UndoActionCreators} from "redux-undo";
 
 // 判断当前element是否合法
 function isActiveElementVaild(){
@@ -41,6 +42,20 @@ function useBindCanvasKeyPress(){
     useKeyPress('downarrow',()=>{
         if (!isActiveElementVaild()) return
         dispatch(selectNextComponent())
+    })
+
+    // 撤销
+    useKeyPress(['ctrl.z','meta.z'],()=>{
+        if (!isActiveElementVaild()) return
+        dispatch(UndoActionCreators.undo())
+    },{
+        exactMatch:true //严格匹配
+    })
+
+    // 重做
+    useKeyPress(['ctrl.shift.z','meta.shift.z'],()=>{
+        if (!isActiveElementVaild()) return
+        dispatch(UndoActionCreators.redo())
     })
 }
 

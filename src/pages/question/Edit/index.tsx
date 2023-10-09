@@ -8,6 +8,8 @@ import {changeSelectedId} from "../../../store/componentsReducer";
 import LeftPanel from "./LeftPanel.tsx";
 import RightPanel from "./RightPanel.tsx";
 import EditHeader from "./EditHeader.tsx";
+import useGetPageInfo from "../../../hooks/useGetPageInfo.ts";
+import {useTitle} from "ahooks";
 
 const Edit: FC = () => {
     // const { id='' } = useParams()
@@ -16,6 +18,8 @@ const Edit: FC = () => {
     function clearSelectedId(){
         dispatch(changeSelectedId(''))
     }
+    const {title} = useGetPageInfo()
+    useTitle(`问卷统计 - ${title}`)
     return (
         <div className={styles.container}>
             <EditHeader/>
