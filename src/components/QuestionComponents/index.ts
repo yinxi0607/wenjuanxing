@@ -3,13 +3,13 @@ import QuestionTitleConf,{QuestionTitlePropsType} from "./QuestionTitle";
 import QuestionParagraphConf,{QuestionParagraphPropsType} from "./QuestionParagraph";
 import QuestionInfoConf,{QuestionInfoPropsType} from "./QuestionInfo"
 import QuestionTextareaConf,{QuestionTextareaPropsType} from "./QuestionTextarea"
-import QuestionRadioConf,{QuestionRadioPropsType} from "./QuestionRadio"
-import QuestionCheckboxConf,{QuestionCheckboxPropsType} from './QuestionCheckbox'
+import QuestionRadioConf,{QuestionRadioPropsType,QuestionRadioStatPropsType} from "./QuestionRadio"
+import QuestionCheckboxConf,{QuestionCheckboxPropsType,QuestionCheckboxStatPropsType} from './QuestionCheckbox'
 import {FC} from "react";
 
 
 export type ComponentPropsType = QuestionCheckboxPropsType & QuestionRadioPropsType & QuestionTextareaPropsType & QuestionInputPropsType & QuestionTitlePropsType & QuestionParagraphPropsType & QuestionInfoPropsType
-
+type StatPropsType = QuestionRadioStatPropsType & QuestionCheckboxStatPropsType
 // 组件的配置
 export type ComponentConfType = {
     title: string
@@ -17,6 +17,7 @@ export type ComponentConfType = {
     Component: FC<ComponentPropsType>
     PropComponent: FC<ComponentPropsType>
     defaultProps: ComponentPropsType
+    StatComponent?: FC<StatPropsType>
 }
 
 // 全部的组件配置列表

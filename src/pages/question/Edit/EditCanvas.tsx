@@ -1,4 +1,4 @@
-import {FC} from 'react';
+import React, {FC} from 'react';
 import styles from './EditCanvas.module.scss'
 // import QuestionTitle from "../../../components/QuestionComponents/QuestionTitle/Component.tsx";
 // import QuestionInput from "../../../components/QuestionComponents/QuestionInput/Component.tsx";
@@ -26,7 +26,7 @@ function getComponent(componentInfo: ComponentInfoType){
 const EditCanvas: FC<PropsType> = ({loading}) => {
     const {componentList,selectedId} = useGetComponentInfo()
     const dispatch = useDispatch()
-    function handleClick(event:MouseEvent,id:string){
+    function handleClick(event: React.MouseEvent<HTMLDivElement>, id: string){
         event.stopPropagation()//阻止冒泡
         dispatch(changeSelectedId(id))
     }
@@ -60,8 +60,8 @@ const EditCanvas: FC<PropsType> = ({loading}) => {
                         [lockedClassName]: isLocked
                     })
                     return <SortableItem id={fe_id} key={fe_id}>
-                        <div className={wrapperClassName} onClick={(e)=>{
-                            handleClick(e,fe_id)
+                        <div className={wrapperClassName} onClick={(event)=>{
+                            handleClick(event,fe_id)
                         }}>
                             <div className={styles.component}>
                                 {getComponent(c)}
